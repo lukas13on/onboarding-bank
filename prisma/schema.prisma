@@ -8,10 +8,10 @@ datasource db {
 }
 
 model Prospecto {
-  id_prospecto Int      @id @default(autoincrement())
-  email        String   @unique
+  id_prospecto Int     @id @default(autoincrement())
+  email        String  @unique
   senha        String
   nome         String
-  documento    String   @unique
+  documento    String  @unique
   status       Boolean @default(false)
 }

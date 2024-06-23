@@ -1,10 +1,10 @@
 import Application from "@/components/application/Application";
-import HomeView from "@/views/home/HomeView";
+import StatusView from "@/views/status/StatusView";
 
 export default function Home() {
   return (
     <Application>
-      <HomeView />
+      <StatusView />
     </Application>
   );
 }

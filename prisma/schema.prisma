@@ -7,11 +7,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Usuario {
-  id_usuario    Int     @id @default(autoincrement())
-  email String  @unique
-  senha String?
-  nome  String?
-  documento  String
-  status Boolean
+model Prospecto {
+  id_prospecto Int     @id @default(autoincrement())
+  email        String  @unique
+  senha        String
+  nome         String
+  documento    String
+  status       Boolean
 }

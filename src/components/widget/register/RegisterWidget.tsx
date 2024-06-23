@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
@@ -8,7 +9,7 @@ import { Card } from "primereact/card";
 
 type TipoPessoa = "fisica" | "juridica";
 
-export default function OnboardingHome() {
+export default function RegisterWidget() {
   const [nome, setNome] = useState("");
   const [documento, setDocumento] = useState("");
   const [email, setEmail] = useState("");
@@ -19,7 +20,7 @@ export default function OnboardingHome() {
   const register = async () => {};
 
   return (
-    <main className="bg-light vh-100">
+    <div className="bg-light vh-100">
       <section className="p-4">
         <div className="container">
           <h1 className="text-center text-md-start">Abra sua conta</h1>
@@ -140,11 +141,11 @@ export default function OnboardingHome() {
         <Row>
           <Col>
             <div className="d-flex justify-content-end">
-              <Button label="Cadastrar minha conta" onClick={register} />
+              <Button label="Abrir minha conta" onClick={register} />
             </div>
           </Col>
         </Row>
       </section>
-    </main>
+    </div>
   );
 }

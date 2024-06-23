@@ -1,10 +1,10 @@
 import Application from "@/components/application/Application";
-import HomeView from "@/views/home/HomeView";
+import RegisterView from "@/views/register/RegisterView";
 
 export default function Home() {
   return (
     <Application>
-      <HomeView />
+      <RegisterView />
     </Application>
   );
 }

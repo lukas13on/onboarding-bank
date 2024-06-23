@@ -29,8 +29,8 @@ export default function StatusWidget() {
   };
   return (
     <>
-      <div className="bg-light" style={{ minHeight: 'calc(100vh - 40px)' }}>
-      <section className="container-fluid bg-primary text-white">
+      <div className="bg-light" style={{ minHeight: "calc(100vh - 40px)" }}>
+        <section className="container-fluid bg-primary text-white">
           <Row>
             <Col xs={12}>
               <div className="text-center p-5">
@@ -54,7 +54,7 @@ export default function StatusWidget() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
-                <div className="text-end">
+                <div className="text-end d-md-block d-none">
                   <Button
                     className="me-1"
                     severity="secondary"
@@ -63,6 +63,19 @@ export default function StatusWidget() {
                   />
                   <Button label="Verificar análise" onClick={verify} />
                 </div>
+              </div>
+            </Col>
+          </Row>
+          <Row className="d-md-none d-block mt-4">
+            <Col>
+              <div className="text-end">
+                <Button
+                  className="me-1"
+                  severity="secondary"
+                  label="Voltar"
+                  onClick={() => router.push("/")}
+                />
+                <Button label="Verificar análise" onClick={verify} />
               </div>
             </Col>
           </Row>

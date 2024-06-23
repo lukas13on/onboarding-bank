@@ -25,6 +25,17 @@ export default function RegisterWidget() {
   const router = useRouter();
 
   const register = async () => {
+    const validation = validate();
+    if (!validation.success) {
+      toast.current?.show({
+        severity: "error",
+        summary: "Erro",
+        detail: validation.message || "Não foi possível realizar o cadastro",
+        life: 3000,
+      });
+      return;
+    }
+
     const response = await fetch("/api/prospect", {
       method: "POST",
       headers: {
@@ -61,9 +72,37 @@ export default function RegisterWidget() {
     }
   };
 
+  const validate = () => {
+    let result = {
+      message: "",
+      success: true,
+    };
+    if (!nome || nome.length < 3) {
+      result.message = "Nome é obrigatório";
+      result.success = false;
+    }
+    if (!documento || documento.length < 11) {
+      result.message = "Documento é obrigatório e deve ter no mínimo 11 caracteres";
+      result.success = false;
+    }
+    if (!email || email.length < 5) {
+      result.message = "Email é obrigatório e deve ter no mínimo 5 caracteres";
+      result.success = false;
+    }
+    if (!senha || senha.length < 6) {
+      result.message = "Senha é obrigatório e deve ter no mínimo 6 caracteres";
+      result.success = false;
+    }
+    if (senha !== confimarSenha) {
+      result.message = "Senhas não conferem";
+      result.success = false;
+    }
+    return result;
+  };
+
   return (
     <>
-      <div className="bg-light" style={{ minHeight: 'calc(100vh - 40px)' }}>
+      <div className="bg-light" style={{ minHeight: "calc(100vh - 40px)" }}>
         <section className="container-fluid bg-primary text-white">
           <Row>
             <Col xs={12}>
@@ -118,7 +157,6 @@ export default function RegisterWidget() {
                   <div className="d-flex m-auto flex-column">
                     <div className="d-flex flex-grow-1">
                       <InputSwitch
-                        
                         checked={tipoPessoa === "fisica"}
                         onChange={(e) => {
                           setTipoPessoa(e.value ? "fisica" : "juridica");
@@ -136,7 +174,7 @@ export default function RegisterWidget() {
                 <h4>Documento</h4>
                 <p className="text-muted small">Insira seu CPF ou CNPJ</p>
                 <InputMask
-                className="w-100"
+                  className="w-100"
                   mask={
                     tipoPessoa === "fisica"
                       ? "999.999.999-99"

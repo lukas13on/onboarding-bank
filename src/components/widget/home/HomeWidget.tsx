@@ -1,19 +1,60 @@
 "use client";
 
+import VectorHome from "@/vectors/home/VectorHome";
 import { useRouter } from "next/navigation";
+import { Button } from "primereact/button";
+import { Card } from "primereact/card";
+import { Col, Row } from "reactstrap";
 
 export default function HomeWidget() {
   const router = useRouter();
   return (
-    <div>
-      <h1>Home</h1>
-      <p>Welcome to the home page!</p>
-      <h2>Register:</h2>
-      <p>Click the button below to register a new account.</p>
-      <button onClick={() => router.push("abrir-conta")}>Register</button>
-      <h2>Status:</h2>
-      <p>Click the button below to view the status page.</p>
-      <button onClick={() => router.push("status-analise")}>Status</button>
-    </div>
+    <>
+      <div className="bg-light">
+        <section className="container">
+          <Row>
+            <Col xs={12}>
+              <div className="text-center p-5">
+                <h1>BIOBANK</h1>
+                <p>Boas vindas ao banco digital do Biopark!</p>
+              </div>
+            </Col>
+          </Row>
+        </section>
+        <section className="container-fluid bg-primary mb-5">
+          <div className="text-center p-5">
+          <VectorHome />
+          </div>
+        </section>
+        <section className="container">
+          <Row>
+            <Col>
+              <Card>
+                <h2>Abertura de conta</h2>
+                <p>Para abrir uma conta, clique no botão abaixo.</p>
+                <div className="text-end">
+                  <Button
+                    label="Abrir minha conta"
+                    onClick={() => router.push("abrir-conta")}
+                  />
+                </div>
+              </Card>
+            </Col>
+            <Col>
+              <Card>
+                <h2>Status da analise</h2>
+                <p>Verifique o status da sua analise.</p>
+                <div className="text-end">
+                  <Button
+                    label="Verificar status"
+                    onClick={() => router.push("status-analise")}
+                  />
+                </div>
+              </Card>
+            </Col>
+          </Row>
+        </section>
+      </div>
+    </>
   );
 }

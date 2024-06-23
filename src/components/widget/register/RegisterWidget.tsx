@@ -1,11 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
+import { InputMask } from "primereact/inputmask";
 import { InputSwitch } from "primereact/inputswitch";
 import { Col, Row } from "reactstrap";
 import { Card } from "primereact/card";
+import { Toast } from "primereact/toast";
+import { Prospect } from "@/models/prospect/ProspectModel";
+import { useRouter } from "next/navigation";
 
 type TipoPessoa = "fisica" | "juridica";
 
@@ -16,136 +20,200 @@ export default function RegisterWidget() {
   const [confimarSenha, setConfirmarSenha] = useState("");
   const [senha, setSenha] = useState("");
   const [tipoPessoa, setTipoPessoa] = useState<TipoPessoa>("fisica");
+  const toast = useRef<Toast>(null);
+  const [result, setResult] = useState<Prospect | null>(null);
+  const router = useRouter();
 
-  const register = async () => {};
+  const register = async () => {
+    const response = await fetch("/api/prospect", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        nome,
+        documento,
+        email,
+        senha,
+      }),
+    });
+
+    const data = await response.json();
+    if (data?.id_prospecto) setResult(data);
+    console.log(data);
+    if (data?.success === false) {
+      toast.current?.show({
+        severity: "error",
+        summary: "Erro",
+        detail: data?.message || "Não foi possível realizar o cadastro",
+        life: 3000,
+      });
+    } else {
+      toast.current?.show({
+        severity: "success",
+        summary: "Sucesso",
+        detail: "Cadastro realizado com sucesso",
+        life: 3000,
+      });
+      new Promise((resolve) => setTimeout(resolve, 3000)).then(() => {
+        router.push(`/`);
+      });
+    }
+  };
 
   return (
-    <div className="bg-light vh-100">
-      <section className="p-4">
-        <div className="container">
-          <h1 className="text-center text-md-start">Abra sua conta</h1>
-          <p className="text-center text-md-start text-muted">
-            Preencha os campos abaixo para criar sua conta
-          </p>
-        </div>
-      </section>
-      <section className="container">
-        <Row>
-          <Col xs={12} md={6}>
-            <div>
-              <h4>Nome completo</h4>
-              <p className="text-muted small">
-                Insira seu nome completo assim como consta em seu documento
-              </p>
-              <InputText
-                className="w-100"
-                value={nome}
-                onChange={(e) => setNome(e.target.value)}
-                id="nome"
-              />
-            </div>
-          </Col>
-          <Col xs={12} md={6}>
-            <div>
-              <h4>Tipo de pessoa</h4>
-              <p className="text-muted small">Selecione o tipo de pessoa</p>
-              <div className="d-flex">
-                <div className="d-flex m-auto flex-column">
-                  <div className="d-flex flex-grow-1">
-                  <InputSwitch
-                    checked={tipoPessoa === "juridica"}
-                    onChange={(e) =>
-                      setTipoPessoa(e.value ? "juridica" : "fisica")
-                    }
-                  />
-                  </div>
-                  <div className="d-flex flex-grow-1">Juridica</div>
-                </div>
-                <div className="d-flex m-auto flex-column">
-                  <div className="d-flex flex-grow-1">
-                    <InputSwitch
-                      checked={tipoPessoa === "fisica"}
-                      onChange={(e) =>
-                        setTipoPessoa(e.value ? "fisica" : "juridica")
-                      }
-                    />
-                  </div>
-                  <div className="d-flex flex-grow-1">Fisica</div>
-                </div>
-              </div>
-            </div>
-          </Col>
-          <Col xs={12} md={6}>
-            <div>
-              <h4>Documento</h4>
-              <p className="text-muted small">Insira seu CPF ou CNPJ</p>
-              <InputText
-                className="w-100"
-                value={documento}
-                onChange={(e) => setDocumento(e.target.value)}
-                id="documento"
-              />
-            </div>
-          </Col>
-          <Col xs={12} md={6}>
-            <div>
-              <h4>Endereço de email</h4>
-              <p className="text-muted small">Insira um email válido</p>
-              <InputText
-                className="w-100"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                id="email"
-              />
-            </div>
-          </Col>
-          <Col xs={12} md={6}>
-            <div>
-              <h4>Senha de acesso</h4>
-              <p className="text-muted small">Insira uma senha de acesso</p>
-              <InputText
-                className="w-100"
-                value={senha}
-                onChange={(e) => setSenha(e.target.value)}
-                id="senha"
-              />
-            </div>
-          </Col>
-          <Col xs={12} md={6}>
-            <div>
-              <h4>Confirmar senha</h4>
-              <p className="text-muted small">Confirme a senha de acesso</p>
-              <InputText
-                className="w-100"
-                value={confimarSenha}
-                onChange={(e) => setConfirmarSenha(e.target.value)}
-                id="confirmar-senha"
-              />
-            </div>
-          </Col>
-        </Row>
-        <hr className="border-gray" />
-        <Card className="my-2">
+    <>
+      <div className="bg-light" style={{ minHeight: 'calc(100vh - 40px)' }}>
+        <section className="container-fluid bg-primary text-white">
           <Row>
-            <Col>
-              <div>
-                <h4>Muita atenção!</h4>
-                <p className="text-muted">
-                  Seu cadastro está sujeito a analise de crédito e aprovação de
-                  abertura de conta.
-                </p>
+            <Col xs={12}>
+              <div className="text-center p-5">
+                <h1>BIOBANK</h1>
+                <p>Boas vindas ao banco digital do Biopark!</p>
               </div>
             </Col>
           </Row>
-        </Card>
-        <Row>
-          <Col>
-            <div className="d-flex justify-content-end">
-              <Button label="Abrir minha conta" onClick={register} />
-            </div>
-          </Col>
-        </Row>
-      </section>
-    </div>
+        </section>
+        <section className="p-4">
+          <div className="container">
+            <h1 className="text-center text-md-start">Abra sua conta</h1>
+            <p className="text-center text-md-start text-muted">
+              Preencha os campos abaixo para criar sua conta
+            </p>
+          </div>
+        </section>
+        <section className="container pb-5">
+          <Row>
+            <Col xs={12} md={6} className="mb-2">
+              <div>
+                <h4>Nome completo</h4>
+                <p className="text-muted small">
+                  Insira seu nome completo assim como consta em seu documento
+                </p>
+                <InputText
+                  className="w-100"
+                  value={nome}
+                  onChange={(e) => setNome(e.target.value)}
+                  id="nome"
+                />
+              </div>
+            </Col>
+            <Col xs={12} md={6} className="mb-2">
+              <div>
+                <h4>Tipo de pessoa</h4>
+                <p className="text-muted small">Selecione o tipo de pessoa</p>
+                <div className="d-flex">
+                  <div className="d-flex m-auto flex-column">
+                    <div className="d-flex flex-grow-1">
+                      <InputSwitch
+                        checked={tipoPessoa === "juridica"}
+                        onChange={(e) => {
+                          setTipoPessoa(e.value ? "juridica" : "fisica");
+                          setDocumento("");
+                        }}
+                      />
+                    </div>
+                    <div className="d-flex flex-grow-1">Juridica</div>
+                  </div>
+                  <div className="d-flex m-auto flex-column">
+                    <div className="d-flex flex-grow-1">
+                      <InputSwitch
+                        
+                        checked={tipoPessoa === "fisica"}
+                        onChange={(e) => {
+                          setTipoPessoa(e.value ? "fisica" : "juridica");
+                          setDocumento("");
+                        }}
+                      />
+                    </div>
+                    <div className="d-flex flex-grow-1">Fisica</div>
+                  </div>
+                </div>
+              </div>
+            </Col>
+            <Col xs={12} md={6} className="mb-2">
+              <div>
+                <h4>Documento</h4>
+                <p className="text-muted small">Insira seu CPF ou CNPJ</p>
+                <InputMask
+                className="w-100"
+                  mask={
+                    tipoPessoa === "fisica"
+                      ? "999.999.999-99"
+                      : "99.999.999/9999-99"
+                  }
+                  value={documento}
+                  onChange={(e) => setDocumento(e.target.value || "")}
+                />
+              </div>
+            </Col>
+            <Col xs={12} md={6} className="mb-2">
+              <div>
+                <h4>Endereço de email</h4>
+                <p className="text-muted small">Insira um email válido</p>
+                <InputText
+                  className="w-100"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  id="email"
+                />
+              </div>
+            </Col>
+            <Col xs={12} md={6} className="mb-2">
+              <div>
+                <h4>Senha de acesso</h4>
+                <p className="text-muted small">Insira uma senha de acesso</p>
+                <InputText
+                  className="w-100"
+                  value={senha}
+                  onChange={(e) => setSenha(e.target.value)}
+                  id="senha"
+                />
+              </div>
+            </Col>
+            <Col xs={12} md={6} className="mb-2">
+              <div>
+                <h4>Confirmar senha</h4>
+                <p className="text-muted small">Confirme a senha de acesso</p>
+                <InputText
+                  className="w-100"
+                  value={confimarSenha}
+                  onChange={(e) => setConfirmarSenha(e.target.value)}
+                  id="confirmar-senha"
+                />
+              </div>
+            </Col>
+          </Row>
+          <hr className="border-gray" />
+          <Card className="mt-2 mb-4">
+            <Row>
+              <Col>
+                <div>
+                  <h4>Muita atenção!</h4>
+                  <p className="text-muted">
+                    Seu cadastro está sujeito a analise de crédito e aprovação
+                    de abertura de conta.
+                  </p>
+                </div>
+              </Col>
+            </Row>
+          </Card>
+          <Row>
+            <Col>
+              <div className="d-flex justify-content-end">
+                <Button
+                  severity="secondary"
+                  className="me-1"
+                  label="Voltar"
+                  onClick={() => router.push("/")}
+                />
+                <Button label="Abrir minha conta" onClick={register} />
+              </div>
+            </Col>
+          </Row>
+        </section>
+      </div>
+      <Toast ref={toast} position="bottom-center" />
+    </>
   );
 }

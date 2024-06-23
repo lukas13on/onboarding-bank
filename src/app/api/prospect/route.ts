@@ -12,7 +12,7 @@ export async function GET() {
   } catch (error: any) {
     return new Response(
       JSON.stringify({
-        message: `Internal Server Error ${error?.message}`,
+        message: error?.message || "Internal Server Error",
         success: false,
       }),
       {
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
   } catch (error: any) {
     return new Response(
       JSON.stringify({
-        message: `Internal Server Error ${error?.message}`,
+        message: error?.message || "Internal Server Error",
         success: false,
       }),
       {

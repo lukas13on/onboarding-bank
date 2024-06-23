@@ -3,11 +3,12 @@ import prospectService from "@/services/prospect/ProspectService";
 
 export async function GET(
   r: Request,
-  { params }: { params: { id_usuario: number } }
+  { params }: { params: { id_prospect: string } }
 ) {
   try {
+    const idProspect = Number(params.id_prospect);
     return new Response(
-      JSON.stringify(await prospectService.getById(params.id_usuario)),
+      JSON.stringify(await prospectService.getById(idProspect)),
       {
         status: 200,
         headers: {
@@ -18,7 +19,7 @@ export async function GET(
   } catch (error: any) {
     return new Response(
       JSON.stringify({
-        message: `Internal Server Error ${error?.message}`,
+        message: error?.message || "Internal Server Error",
         success: false,
       }),
       {
@@ -33,12 +34,13 @@ export async function GET(
 
 export async function PUT(
   req: Request,
-  { params }: { params: { id_usuario: number } }
+  { params }: { params: { id_prospect: string } }
 ) {
   try {
     const body: Prospect = await req.json();
+    const idProspect = Number(params.id_prospect);
     return new Response(
-      JSON.stringify(await prospectService.update(params.id_usuario, body)),
+      JSON.stringify(await prospectService.update(idProspect, body)),
       {
         status: 200,
         headers: {
@@ -49,7 +51,7 @@ export async function PUT(
   } catch (error: any) {
     return new Response(
       JSON.stringify({
-        message: `Internal Server Error ${error?.message}`,
+        message: error?.message || "Internal Server Error",
         success: false,
       }),
       {
@@ -64,11 +66,12 @@ export async function PUT(
 
 export async function DELETE(
   r: Request,
-  { params }: { params: { id_usuario: number } }
+  { params }: { params: { id_prospect: string } }
 ) {
   try {
+    const idProspect = Number(params.id_prospect);
     return new Response(
-      JSON.stringify(await prospectService.delete(params.id_usuario)),
+      JSON.stringify(await prospectService.delete(idProspect)),
       {
         status: 200,
         headers: {
@@ -79,7 +82,7 @@ export async function DELETE(
   } catch (error: any) {
     return new Response(
       JSON.stringify({
-        message: `Internal Server Error ${error?.message}`,
+        message: error?.message || "Internal Server Error",
         success: false,
       }),
       {

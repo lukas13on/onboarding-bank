@@ -17,6 +17,14 @@ export default class ProspectModel {
     });
   }
 
+  static async getByEmail(email: string) {
+    return prisma.prospecto.findFirst({
+      where: {
+        email,
+      },
+    });
+  }
+
   static async create(prospect: ProspectWithoutId) {
     return prisma.prospecto.create({
       data: prospect,

@@ -1,7 +1,10 @@
-import ProspectModel, { Prospect, ProspectWithoutId } from "@/models/prospect/ProspectModel";
+import ProspectModel, {
+  Prospect,
+  ProspectWithoutId,
+} from "@/models/prospect/ProspectModel";
 
 /** Serviço de prospectos */
-export default class userService {
+export default class prospectService {
   /**
    * Retorna todos os prospectos
    */
@@ -17,9 +20,17 @@ export default class userService {
   }
 
   /**
+   * Retorna um prospecto pelo email
+   */
+  static getByEmail(email: string) {
+    return ProspectModel.getByEmail(email);
+  }
+
+  /**
    * Cria um prospecto
    */
   static create(prospecto: ProspectWithoutId) {
+    this.validate(prospecto);
     return ProspectModel.create(prospecto);
   }
 
@@ -35,5 +46,20 @@ export default class userService {
    */
   static delete(id_prospecto: number) {
     return ProspectModel.delete(id_prospecto);
+  }
+
+  static validate(prospecto: ProspectWithoutId) {
+    if (!prospecto.nome || prospecto.nome.length < 3) {
+      throw new Error("Nome é obrigatório");
+    }
+    if (!prospecto.email || prospecto.email.length < 3) {
+      throw new Error("Email é obrigatório");
+    }
+    if (!prospecto.documento || prospecto.documento.length < 3) {
+      throw new Error("Documento é obrigatório");
+    }
+    if (!prospecto.senha || prospecto.senha.length < 3) {
+      throw new Error("Senha é obrigatória");
+    }
   }
 }

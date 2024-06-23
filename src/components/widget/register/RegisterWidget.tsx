@@ -82,7 +82,8 @@ export default function RegisterWidget() {
       result.success = false;
     }
     if (!documento || documento.length < 11) {
-      result.message = "Documento é obrigatório e deve ter no mínimo 11 caracteres";
+      result.message =
+        "Documento é obrigatório e deve ter no mínimo 11 caracteres";
       result.success = false;
     }
     if (!email || email.length < 5) {
@@ -202,6 +203,7 @@ export default function RegisterWidget() {
                 <h4>Senha de acesso</h4>
                 <p className="text-muted small">Insira uma senha de acesso</p>
                 <InputText
+                  type="password"
                   className="w-100"
                   value={senha}
                   onChange={(e) => setSenha(e.target.value)}
@@ -214,6 +216,7 @@ export default function RegisterWidget() {
                 <h4>Confirmar senha</h4>
                 <p className="text-muted small">Confirme a senha de acesso</p>
                 <InputText
+                  type="password"
                   className="w-100"
                   value={confimarSenha}
                   onChange={(e) => setConfirmarSenha(e.target.value)}

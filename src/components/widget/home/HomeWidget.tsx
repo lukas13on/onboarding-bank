@@ -13,7 +13,7 @@ export default function HomeWidget() {
   return (
     <>
       <div className="bg-light">
-        <section className="container">
+        <section className="container-fluid bg-white">
           <Row>
             <Col></Col>
             <Col xs={12} md>
@@ -22,14 +22,15 @@ export default function HomeWidget() {
                 <p>Boas vindas ao banco digital do Biopark!</p>
               </div>
             </Col>
-            <Col className="my-auto pb-5 pb-md-0">
-              <Row>
+            <Col>
+              {/** <Col className="my-auto pb-5 pb-md-0"> */}
+              {/* <Row>
                 <Col xs="auto" className="ms-auto">
                 <Button label="Entrar" onClick={()=>{
                   window.location.href = ACCOUNT_MENAGEMENT_URL;
                 }} />
                 </Col>
-              </Row>
+              </Row> */}
             </Col>
           </Row>
         </section>

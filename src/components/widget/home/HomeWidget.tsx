@@ -8,7 +8,7 @@ import { Card } from "primereact/card";
 import { Col, Row } from "reactstrap";
 
 export default function HomeWidget() {
-  const ACCOUNT_MENAGEMENT_URL = useURLS("ACCOUNT_MENAGEMENT_URL");
+  // const ACCOUNT_MENAGEMENT_URL = useURLS("ACCOUNT_MENAGEMENT_URL");
   const router = useRouter();
   return (
     <>

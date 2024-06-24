@@ -12,11 +12,11 @@ export async function GET() {
   } catch (error: any) {
     return new Response(
       JSON.stringify({
-        message: error?.message || "Internal Server Error",
+        message: error?.message || "Ocorreu um erro",
         success: false,
       }),
       {
-        status: 500,
+        status: 400,
         headers: {
           "content-type": "application/json",
         },
@@ -37,11 +37,11 @@ export async function POST(request: Request) {
   } catch (error: any) {
     return new Response(
       JSON.stringify({
-        message: error?.message || "Internal Server Error",
+        message: error?.message || "Ocorreu um erro",
         success: false,
       }),
       {
-        status: 500,
+        status: 400,
         headers: {
           "content-type": "application/json",
         },

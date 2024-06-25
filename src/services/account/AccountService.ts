@@ -75,26 +75,27 @@ export default class AccountService {
         };
       }
     } catch (e: any) {
-      return {
-        success: true,
-        message: `Falha de integração ${e.message}`,
-        data: [
-          {
-            email: "luka.pc.pc@gmail.com",
-            senha: "123456789",
-            nome: "LUCAS DE OLIVEIRA NEITZKE",
-            cpf: "101.247.089-00",
-            status: false,
-            telefone: "(45) 99914-3968",
-            data_de_nascimento: "2024-06-26T03:00:00.000Z",
-            saldo: 0,
-          },
-        ],
-      };
+      // !sample for development
       // return {
-      //   success: false,
+      //   success: true,
       //   message: `Falha de integração ${e.message}`,
+      //   data: [
+      //     {
+      //       email: "luka.pc.pc@gmail.com",
+      //       senha: "123456789",
+      //       nome: "LUCAS DE OLIVEIRA NEITZKE",
+      //       cpf: "101.247.089-00",
+      //       status: false,
+      //       telefone: "(45) 99914-3968",
+      //       data_de_nascimento: "2024-06-26T03:00:00.000Z",
+      //       saldo: 0,
+      //     },
+      //   ],
       // };
+      return {
+        success: false,
+        message: `Falha de integração ${e.message}`,
+      };
     }
   }
 }

@@ -40,13 +40,15 @@ export default class prospectService {
    */
   static async update(id_prospecto: number, prospecto: Prospect) {
     if (prospecto.status === true) {
+      const prospect = await ProspectModel.getById(id_prospecto)
+      if(!prospect) throw new Error('Prospecto não encontrado');
       const account = await AccountService.create({
-        nome: prospecto.nome,
-        cpf: prospecto.documento,
-        email: prospecto.email,
-        data_de_nascimento: prospecto.data_nascimento.toString(),
-        telefone: prospecto.telefone,
-        senha: prospecto.senha,
+        nome: prospect.nome,
+        cpf: prospect.documento,
+        email: prospect.email,
+        data_de_nascimento: prospect.data_nascimento.toString(),
+        telefone: prospect.telefone,
+        senha: prospect.senha,
       });
       if (account.success) {
         return await ProspectModel.update(id_prospecto, prospecto);

@@ -75,23 +75,42 @@ export default class AccountService {
         };
       }
     } catch (e: any) {
-      // !sample for development
-      // return {
-      //   success: true,
-      //   message: `Falha de integração ${e.message}`,
-      //   data: [
-      //     {
-      //       email: "luka.pc.pc@gmail.com",
-      //       senha: "123456789",
-      //       nome: "LUCAS DE OLIVEIRA NEITZKE",
-      //       cpf: "101.247.089-00",
-      //       status: false,
-      //       telefone: "(45) 99914-3968",
-      //       data_de_nascimento: "2024-06-26T03:00:00.000Z",
-      //       saldo: 0,
-      //     },
-      //   ],
-      // };
+      return {
+        success: false,
+        message: `Falha de integração ${e.message}`,
+      };
+    }
+  }
+
+  /**
+   * Faz login na API de conta corrente e retorna os dados da conta
+   */
+  static async login(email: string, senha: string) {
+    try {
+      const request = await fetch(
+        `${AccountService.END_POINT}/api/conta/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, senha }),
+        }
+      );
+      const response = await request.json();
+      if (request.ok) {
+        return {
+          success: true,
+          message: "Login realizado com sucesso",
+          data: response,
+        };
+      } else {
+        return {
+          success: false,
+          message: response?.message || "Sem resposta da integração",
+        };
+      }
+    } catch (e: any) {
       return {
         success: false,
         message: `Falha de integração ${e.message}`,

@@ -18,15 +18,16 @@ export default function LoginWidget() {
   const toast = useRef<Toast>(null);
 
   const login = async () => {
-    const request = await AccountService.getAll();
-    console.log("request", request);
+    const request = await fetch("/api/login", {
+      method: "POST",
+      body: JSON.stringify({ email, senha }),
+    })
 
-    if (request.success) {
-      const accounts: Account[] = request.data;
-      console.log("accounts", accounts);
-      const account = accounts.find(
-        (acc) => acc.email === email && acc.senha === senha
-      );
+    const response = await request.json();
+    console.log("response", response);
+
+    if (response.success) {
+      const account: Account | null = response.data;
       console.log("account", account);
       if (account) {
         window.localStorage.setItem("account", JSON.stringify(account));
